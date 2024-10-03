@@ -1,0 +1,74 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-image: url('uploads/R.gif'); 
+    background-size: 150px 150px; /* Ajuste do tamanho da imagem de fundo */
+    background-repeat: repeat; /* Faz a imagem se repetir */
+    background-attachment: fixed;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    color: #444;
+    font-size: 24px;
+}
+
+.container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.post {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+}
+
+.post h2 {
+    font-size: 18px;
+    color: #888;
+}
+
+.post p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+.post img {
+    max-width: 60%; /* Diminui o tamanho da imagem */
+    height: auto;
+    border-radius: 8px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a, .pagination span {
+    margin: 0 5px;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+.pagination span {
+    background-color: #333;
+    color: #fff;
+}
