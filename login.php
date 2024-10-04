@@ -1,56 +1,85 @@
 <?php
 session_start();
-include 'conexao.php'; // Inclui o arquivo de conexão com o banco
+include('conexao.php'); // Includes the connection file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $usuario = $_POST['usuario'];
-    $senha = $_POST['senha'];
+    // Check if the user is accessing as a guest
+    if (isset($_POST['guest'])) {
+        $_SESSION['logado'] = true;
+        $_SESSION['usuario'] = "guest";
+        $_SESSION['role'] = "guest"; // Adds the guest role
+        header('Location: index.php'); // Redirects to where the guest should go
+        exit();
+    }
 
-    // Prepara a consulta
-    $sql = "SELECT * FROM usuarios WHERE usuario = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $usuario); 
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Login verification
+    $usuario = $_POST['usuario'] ?? null;
+    $senha = $_POST['senha'] ?? null;
 
-    if ($result->num_rows > 0) {
-        $usuario_dados = $result->fetch_assoc();
+    // Database query
+    if ($usuario && $senha) {
+        $query = "SELECT * FROM usuarios WHERE usuario = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $usuario);
+        $stmt->execute();
+        $resultado = $stmt->get_result();
+        $usuario_dados = $resultado->fetch_assoc();
 
-        // Verifica se a senha corresponde (usando MD5 como exemplo)
-        if (md5($senha) === $usuario_dados['senha']) {
-            // Login bem-sucedido
-            $_SESSION['logado'] = true;
-            header('Location: postDiary.php');
-            exit();
+        // Check if the user exists and the password is correct
+        if ($usuario_dados) {
+            if (password_verify($senha, $usuario_dados['senha'])) {
+                // Successful login
+                $_SESSION['logado'] = true;
+                $_SESSION['usuario'] = $usuario_dados['usuario'];
+                $_SESSION['role'] = $usuario_dados['role'];
+
+                // Redirect based on user role
+                if ($_SESSION['role'] === 'admin') {
+                    header('Location: postDiary.php');
+                } else {
+                    header('Location: index.php');
+                }
+                exit();
+            } else {
+                $erro = "Incorrect password.";
+            }
         } else {
-            $erro = "Senha incorreta!";
+            $erro = "User not found.";
         }
-    } else {
-        $erro = "Usuário não encontrado!";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href='st.css'>
     <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <?php if (isset($erro)) echo "<p style='color:red;'>$erro</p>"; ?>
-    <form method="POST" action="">
-        <label for="usuario">Usuário:</label>
-        <input type="text" id="usuario" name="usuario" required><br><br>
+    <div class="login-container">
+        <h1>Login</h1>
+        <?php if (isset($erro)) echo "<p class='error'>$erro</p>"; ?>
+        
+        <form method="POST" action="">
+            <label for="usuario">Username:</label>
+            <input type="text" id="usuario" name="usuario" required><br><br>
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
+            <label for="senha">Password:</label>
+            <input type="password" id="senha" name="senha" required><br><br>
+            
+            <input type="submit" value="Login">
+        </form>
 
-        <input type="submit" value="Entrar">
-    </form>
+        <button class="register-btn" onclick="window.location.href='register.php';">Create Account</button>
+        <form method="POST" action="">
+            <input type="hidden" name="guest" value="true">
+            <button type="submit" class="guest-btn">Enter as Guest</button>
+        </form>
 
-    <button onclick="window.location.href='index.php';">Voltar</button>
+        <button onclick="window.location.href='index.php';">Back</button>
+    </div>
 </body>
 </html>

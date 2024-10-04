@@ -1,11 +1,11 @@
 body {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Verdana', sans-serif;
     background-image: url('uploads/R.gif'); 
     background-size: 150px 150px; /* Ajuste do tamanho da imagem de fundo */
     background-repeat: repeat; /* Faz a imagem se repetir */
     background-attachment: fixed;
     background-color: #f4f4f4;
-    color: #333;
+    color: #000000;
     margin: 0;
     padding: 20px;
     display: flex;
@@ -15,40 +15,63 @@ body {
 }
 
 h1 {
-    color: #444;
-    font-size: 24px;
+    color: #30185c; /* Cor de título */
+    font-size: 26px;
+}
+
+/* Estilo do botão de login */
+.login-button {
+    position: absolute;
+    top: 10px;
+    right: 100px;
+}
+
+.login-button button {
+    background-color: #30185c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+}
+
+.login-button button:hover {
+    background-color: #30185c;
 }
 
 .container {
-    width: 80%;
-    max-width: 800px;
-    background-color: #fff;
-    padding: 20px;
+    width: 90%;
+    max-width: 1200px;
+    background-color: #f0e0d6; /* Cor semelhante à das postagens no 4chan */
+    padding: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    border: 1px solid #30185c; /* Borda marrom */
 }
 
 .post {
-    margin-bottom: 30px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #aaaaaa;
 }
 
 .post h2 {
-    font-size: 18px;
-    color: #888;
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 5px;
 }
 
 .post p {
     font-size: 16px;
-    line-height: 1.6;
-    margin: 10px 0;
+    line-height: 1.5;
+    color: #000000;
 }
 
 .post img {
-    max-width: 60%; /* Diminui o tamanho da imagem */
+    max-width: 80%; /* Tamanho da imagem maior */
     height: auto;
-    border-radius: 8px;
+    display: block;
+    margin-top: 10px;
 }
 
 .pagination {
@@ -57,18 +80,79 @@ h1 {
 }
 
 .pagination a, .pagination span {
-    margin: 0 5px;
+    font-size: 14px;
     text-decoration: none;
     padding: 5px 10px;
-    border: 1px solid #ccc;
-    color: #333;
+    border: 1px solid #aaa;
+    background-color: #f0e0d6;
+    color: #000000;
 }
 
 .pagination a:hover {
-    background-color: #ddd;
+    background-color: #dddddd;
 }
 
 .pagination span {
-    background-color: #333;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+button {
+    background-color: #30185c;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #170635;
+}
+
+.comments {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+
+.comment {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+}
+
+.comment-date {
+    display: block;
+    font-size: 0.8em;
+    color: #666;
+}
+
+.comment-form {
+    margin-top: 15px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.comment-form button {
+    padding: 8px 15px;
+    background-color: #30185c;
     color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-form button:hover {
+    background-color: #30185c;
 }
