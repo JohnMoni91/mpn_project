@@ -2,13 +2,11 @@
 session_start();
 include 'conexao.php';
 
-// Configurações da página
 $limit = 3;
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $limit;
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Contando e buscando posts
 $sql_count = !empty($search) 
     ? "SELECT COUNT(*) AS total FROM posts WHERE mensagem LIKE ?" 
     : "SELECT COUNT(*) AS total FROM posts";
@@ -21,7 +19,6 @@ if (!empty($search)) {
 $stmt_count->execute();
 $total_posts = $stmt_count->get_result()->fetch_assoc()['total'];
 
-// Buscando posts com base na pesquisa
 $sql_posts = !empty($search) 
     ? "SELECT id, data_postagem, mensagem, imagem FROM posts WHERE mensagem LIKE ? ORDER BY data_postagem DESC LIMIT ?, ?"
     : "SELECT id, data_postagem, mensagem, imagem FROM posts ORDER BY data_postagem DESC LIMIT ?, ?";
@@ -78,7 +75,6 @@ $total_pages = ceil($total_posts / $limit);
                         <img src='<?= htmlspecialchars($row['imagem'], ENT_QUOTES, 'UTF-8'); ?>' alt='Post image' style='width: 50%;'>
                     <?php endif; ?>
 
-                    <!-- Comentários -->
                     <div class='comments'>
                         <?php
                         $post_id = $row['id'];
@@ -100,7 +96,6 @@ $total_pages = ceil($total_posts / $limit);
                         <?php endif; ?>
                     </div>
 
-                    <!-- Formulário de comentário -->
                     <form method='POST' action='add_comment.php' class='comment-form'>
                         <input type='hidden' name='post_id' value='<?= $post_id; ?>'>
                         <textarea name='comment_text' placeholder='Add your comment' required></textarea>
@@ -110,7 +105,6 @@ $total_pages = ceil($total_posts / $limit);
                 <hr>
             <?php endwhile; ?>
 
-            <!-- Paginação -->
             <?php if ($total_pages > 1): ?>
                 <div class="pagination">
                     <?php if ($current_page > 1): ?>
