@@ -1,72 +1,72 @@
 body {
-    font-family: 'Verdana', sans-serif; /* Use Verdana as the primary font */
-    background-image: url('uploads/R.gif'); /* Background image */
-    background-size: 150px 150px; /* Size of the background image */
-    background-repeat: repeat; /* Repeat the background image */
-    background-attachment: fixed; /* Fixed background attachment */
-    background-color: #f4f4f4; /* Fallback background color */
-    color: #000000; /* Text color */
-    margin: 0; /* No margin */
-    padding: 20px; /* Padding around the body */
-    display: flex; /* Use flexbox for centering */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
-    flex-direction: column; /* Stack children vertically */
+    font-family: 'Verdana', sans-serif;
+    background-image: url('uploads/R.gif');
+    background-size: 150px 150px; 
+    background-repeat: repeat;
+    background-attachment: fixed; 
+    background-color: #f4f4f4;
+    color: #000000; 
+    margin: 0; 
+    padding: 20px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column; 
 }
 
 h1 {
-    color: #30185c; /* Heading color */
-    font-size: 26px; /* Font size for heading */
-    text-align: center; /* Centered heading */
+    color: #30185c;
+    font-size: 26px;
+    text-align: center;
 }
 
 .register-container {
-    background-color: #f0e0d6; /* White background for the container */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    max-width: 400px; /* Maximum width */
-    width: 100%; /* Full width */
-    padding: 20px; /* Padding inside the container */
-    text-align: center; /* Center text inside the container */
+    background-color: #f0e0d6;
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    max-width: 400px; 
+    width: 100%;
+    padding: 20px;
+    text-align: center; 
 }
 
 input[type="text"],
 input[type="password"] {
-    width: calc(100% - 22px); /* Full width inputs with some padding */
-    padding: 10px; /* Padding inside the inputs */
-    margin: 10px 0; /* Margin above and below inputs */
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 4px; /* Rounded corners for inputs */
+    width: calc(100% - 22px); 
+    padding: 10px;
+    margin: 10px 0; 
+    border: 1px solid #ccc;
+    border-radius: 4px; 
 }
 
 input[type="submit"], button {
-    padding: 10px 20px; /* Padding inside buttons */
-    margin: 10px 0; /* Margin above and below buttons */
-    background-color: #30185c; /* Dark purple background */
-    border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
-    color: white; /* White text */
-    cursor: pointer; /* Pointer cursor on hover */
-    width: 100%; /* Full width button */
+    padding: 10px 20px;
+    margin: 10px 0; 
+    background-color: #30185c; 
+    border: none;
+    border-radius: 4px; 
+    color: white;
+    cursor: pointer; 
+    width: 100%; 
 }
 
 input[type="submit"]:hover, button:hover {
-    background-color: #170635; /* Darker blue on hover */
+    background-color: #170635; 
 }
 
 p.error {
-    color: red; /* Red text for error messages */
+    color: red; 
 }
 
 p.success {
-    color: green; /* Green text for success messages */
+    color: green; 
 }
 
 .guest-btn, .register-btn {
-    background-color: #30185c; /* Same dark purple background */
-    margin-top: 10px; /* Margin for buttons */
+    background-color: #30185c; 
+    margin-top: 10px; 
 }
 
 .guest-btn:hover, .register-btn:hover {
-    background-color: #170635; /* Darker blue on hover */
+    background-color: #170635; 
 }
