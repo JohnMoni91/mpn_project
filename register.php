@@ -1,15 +1,15 @@
 <?php
 session_start();
-include('conexao.php'); // Include the connection file
+include 'conexao.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Collect form data
+
     $username = $_POST['username'] ?? null;
     $password = $_POST['password'] ?? null;
 
-    // Check if fields are not empty
+
     if ($username && $password) {
-        // Check if the username already exists
+
         $query = "SELECT * FROM usuarios WHERE usuario = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $username);
@@ -17,16 +17,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            $error = "Username already exists."; // Error message in English
+            $error = "Username already exists."; 
         } else {
-            $password_hash = password_hash($password, PASSWORD_BCRYPT); // Hash the password
+            $password_hash = password_hash($password, PASSWORD_BCRYPT); 
 
-            // Prepare the query to insert the new user
             $query = "INSERT INTO usuarios (usuario, senha, role) VALUES (?, ?, 'user')";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("ss", $username, $password_hash);
 
-            // Execute the query and check if the insertion was successful
+
             if ($stmt->execute()) {
                 $success = "User registered successfully!";
             } else {
