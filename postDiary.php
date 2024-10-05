@@ -1,12 +1,8 @@
 <?php
 session_start();
 
-// Verifica se o usuário está logado e se é o admin_username
 if (!isset($_SESSION['logado']) || $_SESSION['logado'] !== true || $_SESSION['usuario'] !== 'admin_username') {
-    // Log para depuração
     error_log("Error. Session: " . print_r($_SESSION, true));
-    
-    // Redireciona para a página de login se não estiver logado ou não for o admin_username
     header('Location: login.php');
     exit();
 }
