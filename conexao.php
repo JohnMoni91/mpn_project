@@ -1,9 +1,9 @@
 
 <?php
-$servername = "localhost"; // Ou o endereço do seu servidor
-$username = "root";        // Usuário do banco de dados
-$password = "";            // Senha do banco de dados
-$dbname = "diario";     // Nome do banco de dados
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "diario";
 
 // Cria a conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
