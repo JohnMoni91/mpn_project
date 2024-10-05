@@ -1,8 +1,8 @@
 body {
     font-family: 'Verdana', sans-serif;
     background-image: url('uploads/R.gif'); 
-    background-size: 150px 150px; /* Ajuste do tamanho da imagem de fundo */
-    background-repeat: repeat; /* Faz a imagem se repetir */
+    background-size: 150px 150px;
+    background-repeat: repeat;
     background-attachment: fixed;
     background-color: #f4f4f4;
     color: #000000;
@@ -15,11 +15,10 @@ body {
 }
 
 h1 {
-    color: #30185c; /* Cor de título */
+    color: #30185c;
     font-size: 26px;
 }
 
-/* Estilo do botão de login */
 .login-button {
     position: absolute;
     top: 10px;
@@ -43,10 +42,10 @@ h1 {
 .container {
     width: 90%;
     max-width: 1200px;
-    background-color: #f0e0d6; /* Cor semelhante à das postagens no 4chan */
+    background-color: #f0e0d6;
     padding: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #30185c; /* Borda marrom */
+    border: 1px solid #30185c;
 }
 
 .post {
@@ -68,7 +67,7 @@ h1 {
 }
 
 .post img {
-    max-width: 80%; /* Tamanho da imagem maior */
+    max-width: 80%;
     height: auto;
     display: block;
     margin-top: 10px;
