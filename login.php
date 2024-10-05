@@ -1,22 +1,19 @@
 <?php
 session_start();
-include('conexao.php'); // Includes the connection file
+include 'conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check if the user is accessing as a guest
     if (isset($_POST['guest'])) {
         $_SESSION['logado'] = true;
         $_SESSION['usuario'] = "guest";
-        $_SESSION['role'] = "guest"; // Adds the guest role
-        header('Location: index.php'); // Redirects to where the guest should go
+        $_SESSION['role'] = "guest"; 
+        header('Location: index.php'); 
         exit();
     }
 
-    // Login verification
     $usuario = $_POST['usuario'] ?? null;
     $senha = $_POST['senha'] ?? null;
 
-    // Database query
     if ($usuario && $senha) {
         $query = "SELECT * FROM usuarios WHERE usuario = ?";
         $stmt = $conn->prepare($query);
@@ -25,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $resultado = $stmt->get_result();
         $usuario_dados = $resultado->fetch_assoc();
 
-        // Check if the user exists and the password is correct
         if ($usuario_dados) {
             if (password_verify($senha, $usuario_dados['senha'])) {
                 // Successful login
@@ -33,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['usuario'] = $usuario_dados['usuario'];
                 $_SESSION['role'] = $usuario_dados['role'];
 
-                // Redirect based on user role
                 if ($_SESSION['role'] === 'admin') {
                     header('Location: postDiary.php');
                 } else {
