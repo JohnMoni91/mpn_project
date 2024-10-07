@@ -2,10 +2,23 @@
 session_start();
 include 'conexao.php';
 
+// Inicializar a contagem de convidados, se não estiver definida
+if (!isset($_SESSION['guest_count'])) {
+    $_SESSION['guest_count'] = 0; // Contagem de convidados começa em 0
+}
+
+// Verifica se o usuário já está logado como admin
+if (isset($_SESSION['logado']) && $_SESSION['logado'] === true && $_SESSION['role'] === 'admin') {
+    header('Location: postDiary.php'); // Redireciona para a página de administração
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Se o botão "Enter as Guest" for clicado
     if (isset($_POST['guest'])) {
+        $_SESSION['guest_count']++; // Incrementa a contagem de convidados
         $_SESSION['logado'] = true;
-        $_SESSION['usuario'] = "guest";
+        $_SESSION['usuario'] = "guest" . $_SESSION['guest_count']; // Define o nome do usuário como guest1, guest2, etc.
         $_SESSION['role'] = "guest"; 
         header('Location: index.php'); 
         exit();
@@ -15,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $senha = $_POST['senha'] ?? null;
 
     if ($usuario && $senha) {
+        // Consulta para buscar o usuário no banco de dados
         $query = "SELECT * FROM usuarios WHERE usuario = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("s", $usuario);
@@ -23,24 +37,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $usuario_dados = $resultado->fetch_assoc();
 
         if ($usuario_dados) {
+            // Verifica se a senha corresponde ao hash armazenado no banco de dados
             if (password_verify($senha, $usuario_dados['senha'])) {
-                // Successful login
+                // Login bem-sucedido, define a sessão
                 $_SESSION['logado'] = true;
                 $_SESSION['usuario'] = $usuario_dados['usuario'];
                 $_SESSION['role'] = $usuario_dados['role'];
 
+                // Redireciona com base no papel do usuário
                 if ($_SESSION['role'] === 'admin') {
-                    header('Location: postDiary.php');
+                    header('Location: postDiary.php'); // Admin redirecionado para a página de administração
                 } else {
-                    header('Location: index.php');
+                    header('Location: index.php'); // Usuário comum redirecionado para a página inicial
                 }
                 exit();
             } else {
-                $erro = "Incorrect password.";
+                // Senha incorreta
+                $erro = "Error.";
             }
         } else {
-            $erro = "User not found.";
+            // Usuário não encontrado
+            $erro = "Error.";
         }
+    } else {
+        // Campos não preenchidos
+        $erro = "Error.";
     }
 }
 ?>

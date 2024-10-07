@@ -2,6 +2,20 @@
 session_start();
 include 'conexao.php';
 
+// Gerar um novo nome de guest se não existir na sessão
+if (!isset($_SESSION['guest_name'])) {
+    // Contador de guests armazenado em uma variável de sessão
+    if (!isset($_SESSION['guest_counter'])) {
+        $_SESSION['guest_counter'] = 1; // Começar com guest1
+    } else {
+        $_SESSION['guest_counter']++; // Incrementar contador
+    }
+    // Definir o nome do guest
+    $_SESSION['guest_name'] = "guest" . $_SESSION['guest_counter'];
+}
+
+// O restante do seu código permanece o mesmo
+
 $limit = 3;
 $current_page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($current_page - 1) * $limit;
@@ -20,8 +34,8 @@ $stmt_count->execute();
 $total_posts = $stmt_count->get_result()->fetch_assoc()['total'];
 
 $sql_posts = !empty($search) 
-    ? "SELECT id, data_postagem, mensagem, imagem FROM posts WHERE mensagem LIKE ? ORDER BY data_postagem DESC LIMIT ?, ?"
-    : "SELECT id, data_postagem, mensagem, imagem FROM posts ORDER BY data_postagem DESC LIMIT ?, ?";
+    ? "SELECT id_post, data_postagem, mensagem, imagem FROM posts WHERE mensagem LIKE ? ORDER BY data_postagem DESC LIMIT ?, ?"
+    : "SELECT id_post, data_postagem, mensagem, imagem FROM posts ORDER BY data_postagem DESC LIMIT ?, ?";
 
 $stmt_posts = $conn->prepare($sql_posts);
 if (!empty($search)) {
@@ -53,13 +67,9 @@ $total_pages = ceil($total_posts / $limit);
     <div class="container">
         <h1>My Diary</h1>
 
-        <div class="user-info">
-            <?php if (isset($_SESSION['logado']) && $_SESSION['logado'] === true): ?>
-                <p>Welcome, <?= htmlspecialchars($_SESSION['usuario']); ?><?= isset($_SESSION['role']) && $_SESSION['role'] === 'admin' ? ' (Admin)' : ''; ?></p>
-            <?php else: ?>
-                <p>You are not logged in.</p>
-            <?php endif; ?>
-        </div>
+        <!--<div class="user-info">
+            <p>Welcome, <?= htmlspecialchars($_SESSION['guest_name']); ?></p>
+        </div>-->
 
         <form method="GET" action="">
             <input type="text" name="search" placeholder="Search posts..." value="<?= htmlspecialchars($search); ?>">
@@ -77,8 +87,8 @@ $total_pages = ceil($total_posts / $limit);
 
                     <div class='comments'>
                         <?php
-                        $post_id = $row['id'];
-                        $sql_comments = "SELECT comment_text, comment_date FROM comments WHERE post_id = ? ORDER BY comment_date DESC";
+                        $post_id = $row['id_post']; 
+                        $sql_comments = "SELECT comment_text, commenter_name FROM comments WHERE post_id = ?";
                         $stmt_comments = $conn->prepare($sql_comments);
                         $stmt_comments->bind_param("i", $post_id);
                         $stmt_comments->execute();
@@ -87,8 +97,8 @@ $total_pages = ceil($total_posts / $limit);
                         if ($result_comments->num_rows > 0): 
                             while ($comment = $result_comments->fetch_assoc()): ?>
                                 <div class='comment'>
+                                    <strong><?= htmlspecialchars($comment['commenter_name'], ENT_QUOTES, 'UTF-8'); ?></strong>: 
                                     <p><?= htmlspecialchars($comment['comment_text'], ENT_QUOTES, 'UTF-8'); ?></p>
-                                    <small class='comment-date'><?= date('F j, Y, g:i a', strtotime($comment['comment_date'])); ?></small>
                                 </div>
                             <?php endwhile; 
                         else: ?>
@@ -98,9 +108,11 @@ $total_pages = ceil($total_posts / $limit);
 
                     <form method='POST' action='add_comment.php' class='comment-form'>
                         <input type='hidden' name='post_id' value='<?= $post_id; ?>'>
-                        <textarea name='comment_text' placeholder='Add your comment' required></textarea>
+                        <input type='hidden' name='commenter_name' value='<?= htmlspecialchars($_SESSION['guest_name']); ?>'>
+                        <textarea name='comment_text' placeholder='Let`s talk?' required></textarea>
                         <button type='submit'>Comment</button>
                     </form>
+
                 </div>
                 <hr>
             <?php endwhile; ?>
